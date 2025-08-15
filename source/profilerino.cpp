@@ -15,7 +15,7 @@ void  __cyg_profile_func_enter(void *this_fn, void *call_site) {
 		sceRazorCpuPushMarkerWithHud(sym_table[(uint32_t)this_fn].c_str() , 0x8000ffff, 0);
 	} else {
 		char addr[32];
-		sprintf(addr, "func %x (call site %x)", this_fn, call_site);
+		sprintf(addr, "func %x", this_fn);
 		sceRazorCpuPushMarkerWithHud(addr, 0x8000ffff, 0);
 	}
 }
