@@ -4,6 +4,7 @@
 ## Instructions
 
 - `make install` the library.
+- Call `profilerino_init` at the start of your main function in your homebrew.
 - Compile your homebrew with `-finstrument-functions`.
 - Once compiled, Run `nm --without-symbol-versions --demangle FILE.ELF > sym.txt`. (Optional)
 - Place `sym.txt` in the same folder of your executable. (Optional)
