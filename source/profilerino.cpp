@@ -21,7 +21,7 @@ void  __cyg_profile_func_enter(void *this_fn, void *call_site) {
 }
 
 void __cyg_profile_func_exit(void *this_fn, void *call_site) {
-    sceRazorCpuPopMarker();
+	sceRazorCpuPopMarker();
 }
 
 void profilerino_init() {
@@ -45,10 +45,10 @@ void profilerino_init() {
 	fclose(f);
 	
 	char *startline = buf;
-    char *endline = strstr(startline, "\n");
+	char *endline = strstr(startline, "\n");
 	uint32_t addr;
-    char dummy;
-    char func_name[2048] = {};
+	char dummy;
+	char func_name[2048] = {};
 	while (endline) {
 		endline[0] = 0;
 		if (*(endline - 1) != ' ' && !strstr(startline, " w ")) { // Ignore missing function names and addresses
