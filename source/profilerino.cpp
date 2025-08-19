@@ -52,9 +52,28 @@ void profilerino_init() {
 	while (endline) {
 		endline[0] = 0;
 		if (*(endline - 1) != ' ' && !strstr(startline, " w ")) { // Ignore missing function names and addresses
-			sscanf(startline, "%x %c %s", &addr, &dummy, func_name);
-			//sceClibPrintf("%x -> %s\n", addr, func_name);
-			sym_table[addr] = func_name;
+			// Line format is: "12345678 T myFunctionName"
+			char *addr_end = strchr(startline, ' ');
+			if (addr_end) {
+				*addr_end = '\0';
+				addr = strtoul(startline, NULL, 16);
+				*addr_end = ' '; // Restore the space
+				
+				// addr_end + 1 now is the start of the symbol name
+				char *symbol_start = strchr(addr_end + 1, ' ');
+				if (symbol_start) {
+					symbol_start++; // Skip the space
+					size_t len = strlen(symbol_start);
+					// Just in case we have a really longass name
+					if (len >= sizeof(func_name)) {
+						len = sizeof(func_name) - 1;
+					}
+					memcpy(func_name, symbol_start, len);
+					func_name[len] = '\0';
+					//sceClibPrintf("%x -> %s\n", addr, func_name);
+					sym_table[addr] = func_name;
+				}
+			}
 		}
 		startline = endline + 1;
 		endline = strstr(startline, "\n");
